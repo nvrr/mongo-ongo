@@ -35,8 +35,21 @@ const courses = await Course
 // .find({price: {$gte : 10,lte: 20}})
 // .find({price: {$in:[10,15,20]}})
 // Logical or and (and operator is same done what .find({author:'Mosh',isPublished: true} doooo,but some complex things AND operator useful )
-.find()
-.or([{author:'Praba'},{isPublished:true}])
+// .find()
+// .or([{author:'Praba'},{isPublished:true}])
+
+// Regular expressions
+// Starts with Mosh
+.find({author: /^Mosh/})
+//Ends with Hamadani case sensitive
+.find({author: /Hamadani$/})
+
+//Ends with Hamadani case in-sensitive (put i at end)
+.find({author: /Hamadani$/i})
+
+//Contains Mosh ;;it means author name can be in beging or moddle or end
+// to make case insensitive put i at end
+.find({author: /.*Mosh.*/i})
 
    .limit(10)
    .sort({name:1}) //ascend 1 desend -1
