@@ -40,20 +40,22 @@ const courses = await Course
 
 // Regular expressions
 // Starts with Mosh
-.find({author: /^Mosh/})
+// .find({author: /^Mosh/})
 //Ends with Hamadani case sensitive
-.find({author: /Hamadani$/})
+// .find({author: /Hamadani$/})
 
 //Ends with Hamadani case in-sensitive (put i at end)
-.find({author: /Hamadani$/i})
+// .find({author: /Hamadani$/i})
 
 //Contains Mosh ;;it means author name can be in beging or moddle or end
 // to make case insensitive put i at end
-.find({author: /.*Mosh.*/i})
-
+// .find({author: /.*Mosh.*/i})
+.find({author:'Mosh',isPublished: true})
    .limit(10)
    .sort({name:1}) //ascend 1 desend -1
-   .select({name: 1 , tags: 1})    
+   .select({name: 1 , tags: 1})
+   //count number of documents
+   .count()
 
 console.log(courses);
 }
