@@ -30,6 +30,10 @@ console.log(result);
 }
 
 async function getCourses(){
+
+    const pageNumber = 2;
+    const pageSize = 10;
+
 const courses = await Course
 //    .find({author:'Mosh',isPublished: true})
 // .find({price: {$gte : 10,lte: 20}})
@@ -51,11 +55,13 @@ const courses = await Course
 // to make case insensitive put i at end
 // .find({author: /.*Mosh.*/i})
 .find({author:'Mosh',isPublished: true})
-   .limit(10)
+// Pagination
+.skip((pageNumber -1) * pageSize)
+   .limit(pageSize)
    .sort({name:1}) //ascend 1 desend -1
    .select({name: 1 , tags: 1})
    //count number of documents
-   .count()
+//    .count()
 
 console.log(courses);
 }
