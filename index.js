@@ -33,7 +33,11 @@ async function getCourses(){
 const courses = await Course
 //    .find({author:'Mosh',isPublished: true})
 // .find({price: {$gte : 10,lte: 20}})
-.find({price: {$in:[10,15,20]}})
+// .find({price: {$in:[10,15,20]}})
+// Logical or and (and operator is same done what .find({author:'Mosh',isPublished: true} doooo,but some complex things AND operator useful )
+.find()
+.or([{author:'Praba'},{isPublished:true}])
+
    .limit(10)
    .sort({name:1}) //ascend 1 desend -1
    .select({name: 1 , tags: 1})    
