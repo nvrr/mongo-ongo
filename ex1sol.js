@@ -53,17 +53,29 @@ async function updateCourse(id){
 
 // const result = await course.save()
 
-const result = await Course.updateOne({_id:id},{
+//* update first approch
+// const result = await Course.updateOne({_id:id},{
+//    $set: {
+//       author:'NVRRR',
+//       isPublished:false
+//    }
+// })
+
+// console.log(result);
+// console.log('Updated COurse:', result);
+
+const course = await Course.findByIdAndUpdate(id, {
    $set: {
-      author:'NVRRR',
+      author:'Gobbi',
       isPublished:false
    }
-})
+},
+{new: true})
 
-console.log(result);
-console.log('Updated COurse:', result);
+
+console.log(course);
 
 
 }
 
-updateCourse('1234512345bc')
+updateCourse('1234512345cd')
