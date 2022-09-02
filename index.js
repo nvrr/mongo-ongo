@@ -5,28 +5,55 @@ mongoose.connect('mongodb://localhost/playground')
 
 
   const courseSchema = new mongoose.Schema({
-    name: String,
+    category:{
+      type:String,
+      required:true,
+      enum:['web','mobile','network']
+    },
+    name: {type:String, require:true, minlength:5,maxlength:255,},
     author: String,
-    tags: [ String ],
+    tags: {
+      type: Array,
+      validate: {
+        validator:function(v){
+        return v && v.length > 0;
+      },
+      message:'A course should have at least one tag'
+    },},
     date: {type:Date, default: Date.now},
-    isPublished: Boolean
+    isPublished: Boolean,
+    price: {
+      type: Number,
+      required: function(){
+        return this.isPublished
+      },
+      min:10,
+      max:200,
+    }
   })
 
   const Course = mongoose.model('Course', courseSchema);
-
+  console.log('courseObj:',Course);
 async function createCourse(){
-
-    
-    
+  
        const course = new Course({
         name: 'Angular Course',
         author: 'Mosh',
-        tags: [ 'angular','frontend'],
-        isPublished: true
+        tags:null,
+        // tags: [ 'angular','frontend'],
+        isPublished: true,
+        price:15,
+        category:'web'
        })
+       console.log('courseObj:',course);
     
-        const result = await course.save()
-console.log(result);    
+        try{
+          const result = await course.save()
+console.log('Result',result);    
+
+        } catch(e){
+          console.log('ErrorMess:',e.message);
+        }
 }
 
 async function getCourses(){
@@ -66,5 +93,5 @@ const courses = await Course
 console.log(courses);
 }
 
-getCourses()
-
+// getCourses()
+createCourse()
