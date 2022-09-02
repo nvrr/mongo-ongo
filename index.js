@@ -10,16 +10,37 @@ mongoose.connect('mongodb://localhost/playground')
       required:true,
       enum:['web','mobile','network']
     },
-    name: {type:String, require:true, minlength:5,maxlength:255,},
+    name: {type:String, 
+      require:true, 
+      minlength:5,
+      maxlength:255,},
     author: String,
     tags: {
       type: Array,
-      validate: {
-        validator:function(v){
-        return v && v.length > 0;
-      },
-      message:'A course should have at least one tag'
-    },},
+    //   validate: {
+    //     validator:function(v){
+    //     return v && v.length > 0;
+    //   },
+    //   message:'A course should have at least one tag'
+    // },},
+
+    //** Aysnc validator */
+    validate: {
+      isAsync: true,
+      validator:function(v,callback=()=>{}){
+      //  return setTimeout(() => {
+      //     const result = v && v.length > 0;
+      //     callback(result);
+      //   },1000)
+      return new Promise((resolve) => {
+          const result = v && v.length > 0;
+          resolve(result)
+      },2000)
+     
+    },
+    message:'A course should have at least one tag'
+  },},
+    
     date: {type:Date, default: Date.now},
     isPublished: Boolean,
     price: {
@@ -39,7 +60,7 @@ async function createCourse(){
        const course = new Course({
         name: 'Angular Course',
         author: 'Mosh',
-        tags:null,
+        // tags:null,
         // tags: [ 'angular','frontend'],
         isPublished: true,
         price:15,
@@ -50,7 +71,6 @@ async function createCourse(){
         try{
           const result = await course.save()
 console.log('Result',result);    
-
         } catch(e){
           console.log('ErrorMess:',e.message);
         }
