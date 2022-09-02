@@ -8,7 +8,10 @@ mongoose.connect('mongodb://localhost/playground')
     category:{
       type:String,
       required:true,
-      enum:['web','mobile','network']
+      enum:['web','mobile','network'],
+      lowercase:true,
+      // uppsercase:true,
+      trim:true
     },
     name: {type:String, 
       require:true, 
@@ -50,21 +53,23 @@ mongoose.connect('mongodb://localhost/playground')
       },
       min:10,
       max:200,
+      // get:(v)=> Math.round(v),
+      set:(v)=> Math.round(v)
     }
   })
 
   const Course = mongoose.model('Course', courseSchema);
-  console.log('courseObj:',Course);
+  // console.log('courseObj:',Course);
 async function createCourse(){
   
        const course = new Course({
         name: 'Angular Course',
         author: 'Mosh',
-        tags:null,
-        // tags: [ 'angular','frontend'],
+        // tags:null,
+        tags: [ 'angular','frontend'],
         isPublished: true,
-        price:15,
-        category:'-'
+        price:15.6,
+        category:'WEB'
        })
        console.log('courseObj:',course);
     
@@ -103,17 +108,17 @@ const courses = await Course
 //Contains Mosh ;;it means author name can be in beging or moddle or end
 // to make case insensitive put i at end
 // .find({author: /.*Mosh.*/i})
-.find({author:'Mosh',isPublished: true})
+.find({_id:'6311fa8846c15332521f085a'})
 // Pagination
-.skip((pageNumber -1) * pageSize)
-   .limit(pageSize)
-   .sort({name:1}) //ascend 1 desend -1
-   .select({name: 1 , tags: 1})
+// .skip((pageNumber -1) * pageSize)
+  //  .limit(pageSize)
+  //  .sort({name:1}) //ascend 1 desend -1
+   .select({name: 1 , tags: 1,price:1})
    //count number of documents
 //    .count()
 
-console.log(courses);
+console.log(courses[0].price);
 }
 
-// getCourses()
-createCourse()
+getCourses()
+// createCourse()
