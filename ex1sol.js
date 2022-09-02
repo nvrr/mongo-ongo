@@ -39,19 +39,28 @@ mongoose.connect("mongodb://localhost/mongo-exercises")
 
 //* Updating Document
 async function updateCourse(id){
-const course = await Course.findById(id)
-if(!course) return;
+// const course = await Course.findById(id)
+// if(!course) return;
 
-course.isPublished = true;
-course.author= 'Another Author'
+// course.isPublished = true;
+// course.author= 'Another Author'
 
-// or
-// course.set({
-//   isPublished:true,
-//   author:'Another Author'
-// })
+// // or
+// // course.set({
+// //   isPublished:true,
+// //   author:'Another Author'
+// // })
 
-const result = await course.save()
+// const result = await course.save()
+
+const result = await Course.updateOne({_id:id},{
+   $set: {
+      author:'NVRRR',
+      isPublished:false
+   }
+})
+
+console.log(result);
 console.log('Updated COurse:', result);
 
 
